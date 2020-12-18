@@ -15,7 +15,7 @@ export const login = async (req, res) => {
 			if (await bcrypt.compare(req.body.password, query.password)) {
 				const token = jwt.sign({ id_user: query.id_user, email: query.email }, process.env.SECRET);
 				console.log(token)
-				res.json({ success: true, data: { ...query.publicData, token }, message: '' })
+				res.json({ success: true, data: { ...query.dataValues, token }, message: '' })
 			} else {
 				res.status(400).json({ success: false, data: {}, message: 'email or password incorrect' })
 			}
@@ -23,6 +23,7 @@ export const login = async (req, res) => {
 			res.status(400).json({ success: false, data: {}, message:'email or password incorrect' })
 		}
 	} catch (e) {
+		console.log(e)
 		res.status(400).json({ success: false, data: {}, message:'error' })
 	}
 }
