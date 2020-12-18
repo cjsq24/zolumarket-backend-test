@@ -24,7 +24,7 @@ export const login = async (req, res) => {
 		}
 	} catch (e) {
 		console.log(e)
-		res.status(400).json({ success: false, data: {}, message:'error' })
+		res.status(400).json({ success: false, data: {}, message:JSON.parse(e) })
 	}
 }
 
