@@ -13,6 +13,7 @@ import {units} from './units/units.service.js'
 import {countries} from './countries/countries.service.js'
 import {shops} from './shops/shops.service.js'
 import {locations} from './locations/locations.service.js'
+import {pushNotifications} from './pushNotificacions/pushNotifications.service.js'
 
 export const services = {
 	users,
@@ -29,5 +30,6 @@ export const services = {
 	units,
 	countries,
 	shops,
-	locations
+	locations,
+	pushNotifications
 }

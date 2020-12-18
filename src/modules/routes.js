@@ -14,6 +14,7 @@ import units from './units/units.route.js'
 import countries from './countries/countries.route.js'
 import shops from './shops/shops.route.js'
 import locations from './locations/locations.route.js'
+import pushNotifications from './pushNotificacions/pushNotifications.route.js'
 const router = Router()
 
 router.use('/users', users)
@@ -31,5 +32,6 @@ router.use('/units', units)
 router.use('/countries', countries)
 router.use('/shops', shops)
 router.use('/locations', locations)
+router.use('/push-notifications', pushNotifications)
 
 export default router
