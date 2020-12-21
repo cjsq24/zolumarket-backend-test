@@ -20,11 +20,11 @@ export const login = async (req, res) => {
 				res.status(400).json({ success: false, data: {}, message: 'email or password incorrect' })
 			}
 		} else {
-			res.status(400).json({ success: false, data: {}, message:'email or password incorrect' })
+			res.status(400).json({ success: false, data: {}, message:'email or password incorrect 2' })
 		}
 	} catch (e) {
 		console.log(e)
-		res.status(400).json({ success: false, data: {}, message:JSON.parse(e) })
+		res.status(400).json({ success: false, data: {}, message: 'error' })
 	}
 }
 

@@ -23,6 +23,7 @@ export const register = async (req, res) => {
 		})
 		res.json({ success: true, data: newRecord, message: '' })
 	} catch (e) {
+		console.log('error al registrar')
 		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
 	}
 }

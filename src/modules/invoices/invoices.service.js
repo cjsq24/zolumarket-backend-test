@@ -24,7 +24,7 @@ export const register = async (req, res) => {
 		//Calculo el precio total de los productos
 		let totalPrice = 0
 		req.body.datosfactura.map(data => {
-			totalPrice += data.precio
+			totalPrice += (data.precio * data.cantidad)
 		})
 
 		//concateno los productos

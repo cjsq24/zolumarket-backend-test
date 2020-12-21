@@ -18,7 +18,8 @@ export const list = async (req, res) => {
 				['name', 'producto'], 
 				['description', 'descripcion'], 
 				['picture', 'foto'], 
-				['price', 'precio']
+				['price', 'precio'],
+				'id_category'
 			],
 			include: [{
 				model: db.providers,
@@ -34,6 +35,7 @@ export const list = async (req, res) => {
 		}
 		res.json({ success: true, data: query, message: '' })
 	} catch (e) {
+		console.log(e)
 		res.status(400).json({ success: false, data: {}, message: 'error' })
 	}
 }

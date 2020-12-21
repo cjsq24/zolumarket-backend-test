@@ -4,7 +4,7 @@ import sequelize from '../../db.js';
 const Location = sequelize.define('locations', {
 	id_location: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
 	id_user: { type: Sequelize.INTEGER, references: { model: 'users', key: 'id_user' } },
-	name: { type: Sequelize.STRING(50), unique: true },
+	name: Sequelize.STRING(50),
 	latitude: Sequelize.STRING(50),
 	latitude_delta: Sequelize.STRING(50),
 	longitude: Sequelize.STRING(50),
