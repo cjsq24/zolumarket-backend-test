@@ -5,6 +5,7 @@ import {categories} from './categories/categories.service.js'
 import {deliveries} from './deliveries/deliveries.service.js'
 import {invoiceProducts} from './invoiceProducts/invoiceProducts.service.js'
 import {invoices} from './invoices/invoices.service.js'
+import {payments} from './payments/payments.service.js'
 import {paymentTypes} from './paymentTypes/paymentTypes.service.js'
 import {products} from './products/products.service.js'
 import {providers} from './providers/providers.service.js'
@@ -23,6 +24,7 @@ export const services = {
 	deliveries,
 	invoiceProducts,
 	invoices,
+	payments,
 	paymentTypes,
 	products,
 	providers,

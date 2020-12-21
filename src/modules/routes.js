@@ -6,6 +6,7 @@ import categories from './categories/categories.route.js'
 import deliveries from './deliveries/deliveries.route.js'
 import invoiceProducts from './invoiceProducts/invoiceProducts.route.js'
 import invoices from './invoices/invoices.route.js'
+import payments from './payments/payments.route.js'
 import paymentTypes from './paymentTypes/paymentTypes.route.js'
 import products from './products/products.route.js'
 import providers from './providers/providers.route.js'
@@ -24,6 +25,7 @@ router.use('/categories', categories)
 router.use('/deliveries', deliveries)
 router.use('/invoice-products', invoiceProducts)
 router.use('/invoices', invoices)
+router.use('/payments', payments)
 router.use('/payment-types', paymentTypes)
 router.use('/products', products)
 router.use('/providers', providers)

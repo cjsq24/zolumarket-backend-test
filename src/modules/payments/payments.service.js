@@ -1,8 +1,33 @@
 import {db} from '../models.js'
+import sequelize from '../../db.js';
 
 export const list = async (req, res) => {
-	const query = db.payments.findAll()
-	res.json({ success: true, data: query, message: '' })
+	try {
+		//const query = await db.payments.findAll({ where: {id_user: req.query.id_user }})
+		const query = await db.payments.findAll({
+			where: { id_user: req.idUser },
+			attributes: [
+				'price',
+				'id_invoice',
+				'id_account',
+				'reference_payment',
+				[sequelize.fn('date_format', sequelize.col('payments.createdAt'), '%d-%m-%Y %h:%i %p'), 'createdAt']
+			],
+			include: [{
+					model: db.paymentTypes,
+					attributes: ['name']
+				}, {
+					model: db.banks,
+					attributes: ['name']
+				}
+			],
+			order: [['id_payment', 'DESC']]
+		})
+		res.json({ success: true, data: query, message: '' })
+	} catch (e) {
+		console.log(e)
+		res.status(400).json({ success: false, data: {}, message: '' })
+	}
 }
 
 export const register = async (params) => {

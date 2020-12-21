@@ -11,7 +11,7 @@ const Product = sequelize.define('products', {
 	//id_trademark: { type: Sequelize.INTEGER, references: { model: 'trademarks', key: 'id_trademark' } },
 	id_provider: { type: Sequelize.INTEGER, references: { model: 'providers', key: 'id_provider' } },
 	id_shop: { type: Sequelize.INTEGER, references: { model: 'shops', key: 'id_shop' } },
-	picture: Sequelize.STRING(200),
+	picture: Sequelize.TEXT,
 	description: Sequelize.STRING(255),
 	status: { type: Sequelize.BOOLEAN, defaultValue: 1 },
 	createdAt: Sequelize.DATE,
