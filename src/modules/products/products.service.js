@@ -1,4 +1,5 @@
 import {db} from '../models.js'
+import sequelize from '../../db.js'
 import SequelizeErrorMsg from '../../../helpers/SequelizeValidations.js'
 
 export const list = async (req, res) => {
@@ -18,7 +19,7 @@ export const list = async (req, res) => {
 				['name', 'producto'], 
 				['description', 'descripcion'], 
 				['picture', 'foto'], 
-				['price', 'precio'],
+				[sequelize.fn('ROUND', sequelize.col('price'), 2), 'precio'],
 				'id_category'
 			],
 			include: [{
