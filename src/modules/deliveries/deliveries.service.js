@@ -23,6 +23,7 @@ export const register = async (req, res) => {
 }
 
 export const registerFromInvoice = async (params) => {
+	try {
 		const location = await db.locations.findOne({ where: { id_location: params.data.id_location } })
 
 		const newRecord = await db.deliveries.create({
@@ -33,6 +34,11 @@ export const registerFromInvoice = async (params) => {
 			courier_address: 'data.courierAddress',
 			delivery_status: '1'
 		}, { transaction: params.transaction })
+		return true
+	} catch (e) {
+		console.log(e)
+		return false
+	}
 }
 
 export const update = async (req, res) => {

@@ -46,14 +46,14 @@ export const register = async (req, res) => {
 		}, { transaction: transaction })
 
 		//registramos el detalle de productos de la factura
-		await invoiceProducts.register({
+		const registerProducts = await invoiceProducts.register({
 			transaction: transaction, 
 			idInvoice: newInvoice.dataValues.id_invoice, 
 			products: req.body.datosfactura
 		})
 
 		//registramos el pago
-		await payments.register({
+		const registerPayment = await payments.register({
 			transaction: transaction, 
 			idInvoice: newInvoice.dataValues.id_invoice, 
 			reference: reference, 
@@ -63,7 +63,7 @@ export const register = async (req, res) => {
 		})
 
 		//registramos el delivery
-		await deliveries.registerFromInvoice({
+		const registerDelivery = await deliveries.registerFromInvoice({
 			transaction: transaction, 
 			reference: reference, 
 			totalPrice: totalPrice, 
@@ -71,9 +71,13 @@ export const register = async (req, res) => {
 			idUser: req.idUser
 		})
 
-		await transaction.commit()
-
-		res.json({ success: true, data: newInvoice, message: '' })
+		if (registerProducts && registerPayment && registerDelivery) {
+			await transaction.commit()
+			res.json({ success: true, data: newInvoice, message: '' })
+		} else {
+			await transaction.rollback()
+			res.status(400).json({ success: false, data: [], message: SequelizeErrorMsg(e) })
+		}
 	} catch (e) {
 		await transaction.rollback()
 		res.status(400).json({ success: false, data: [], message: SequelizeErrorMsg(e) })

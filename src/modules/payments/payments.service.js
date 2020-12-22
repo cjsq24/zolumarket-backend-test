@@ -31,6 +31,7 @@ export const list = async (req, res) => {
 }
 
 export const register = async (params) => {
+	try {
 		let data = params.data
 		if (Number.isInteger(data.tipoDePago)) {
 			data.idPaymentType = data.tipoDePago
@@ -71,6 +72,12 @@ export const register = async (params) => {
 			id_account: data.id_account,
 			date: data.date
 		}, { transaction: params.transaction })
+
+		return true
+	} catch (e) {
+		console.log(e)
+		return false
+	}
 }
 
 export const update = async (totalPrice, data) => {

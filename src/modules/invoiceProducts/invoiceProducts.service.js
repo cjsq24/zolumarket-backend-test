@@ -6,14 +6,20 @@ export const list = async (req, res) => {
 }
 
 export const register = async (params) => {
-		params.products.map(product => {
-			db.invoiceProducts.create({
+	try {
+		params.products.map(async (product) => {
+			await db.invoiceProducts.create({
 				id_invoice: params.idInvoice,
 				id_product: product.id,
 				quantity: product.cantidad,
 				price: product.precio
-			})
-		}, { transaction: params.transaction })
+			}, { transaction: params.transaction })
+		})
+		return true
+	} catch (e) {
+		console.log(e)
+		return false
+	}
 }
 
 export const update = async (idInvoice, products) => {
