@@ -48,7 +48,7 @@ module.exports = {
 				id_category: 2,
 				id_unit: 1,
 				id_provider: 1,
-				picture: 'http://zolumarket.com/pruebas/productos/frutas%20y%20verduras/Aceituna%20Entera%20Gordal%20Goya%206.5%20Oz.%20RD$%20124.jpg',
+				picture: 'https://cdn.shopify.com/s/files/1/0123/4455/7664/products/41331014731-aceituna-entera-gordal-goya-6-5-oz-17721491325092.jpg?v=1604711964',
 				description: 'Esta es la la descripcion del producto lorem ipsum text...',
 				createdAt,
 				updatedAt
@@ -60,7 +60,7 @@ module.exports = {
 				id_category: 2,
 				id_unit: 1,
 				id_provider: 1,
-				picture: 'http://zolumarket.com/pruebas/productos/frutas%20y%20verduras/Aj%c3%ades%20Morr%c3%b3n%201%20lb.%20RD$%2064.jpg',
+				picture: 'https://www.solocarnes.com/wp-content/uploads/2019/02/como-pelar-un-pimiento.jpg',
 				description: 'Esta es la la descripcion del producto lorem ipsum text...',
 				createdAt,
 				updatedAt
@@ -72,7 +72,7 @@ module.exports = {
 				id_category: 2,
 				id_unit: 1,
 				id_provider: 1,
-				picture: 'http://zolumarket.com/pruebas/productos/frutas%20y%20verduras/Apio%20Entero%201%20Libra.%20RD$%2035.jpg',
+				picture: 'https://mercaldas.vteximg.com.br/arquivos/ids/155610-1000-1000/14723.jpg?v=636885394313470000',
 				description: 'Esta es la la descripcion del producto lorem ipsum text...',
 				createdAt,
 				updatedAt
@@ -84,7 +84,7 @@ module.exports = {
 				id_category: 3,
 				id_unit: 1,
 				id_provider: 1,
-				picture: 'http://zolumarket.com/pruebas/productos/carnes/Bistec%20Boliche%20de%20Res%20por%20Libras.%20RD$%20154.jpg',
+				picture: 'https://redbajas.com/public/frontend/files/ALIMENTOS/CARNES/227.jpg',
 				description: 'Esta es la la descripcion del producto lorem ipsum text...',
 				createdAt,
 				updatedAt
@@ -96,7 +96,7 @@ module.exports = {
 				id_category: 3,
 				id_unit: 1,
 				id_provider: 1,
-				picture: 'http://zolumarket.com/pruebas/productos/carnes/Churrasco%20de%20Res%20Angus%20Choice%20por%20Libras.%20RD$%20479.jpg',
+				picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCGsUop6vAa8WZgCaoElrNT-FuCInF-zDrBw&usqp=CAU',
 				description: 'Esta es la la descripcion del producto lorem ipsum text...',
 				createdAt,
 				updatedAt
@@ -108,7 +108,7 @@ module.exports = {
 				id_category: 3,
 				id_unit: 1,
 				id_provider: 1,
-				picture: 'http://zolumarket.com/pruebas/productos/carnes/Pecho%20de%20Res%20Corriente%20por%20Libras.%20RD$%2083.jpg',
+				picture: 'https://www.ranchoel17.com/wp-content/uploads/2017/03/pecho-n.png',
 				description: 'Esta es la la descripcion del producto lorem ipsum text...',
 				createdAt,
 				updatedAt

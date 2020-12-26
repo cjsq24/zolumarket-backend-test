@@ -1,5 +1,6 @@
 import users from './users/users.model.js'
 import roles from './roles/roles.model.js'
+import userRoles from './userRoles/userRoles.model.js'
 import banks from './banks/banks.model.js'
 import categories from './categories/categories.model.js'
 import deliveries from './deliveries/deliveries.model.js'
@@ -17,6 +18,9 @@ import locations from './locations/locations.model.js'
 
 countries.hasMany(users, {foreignKey: 'id_country'})
 users.belongsTo(countries, {foreignKey: 'id_country'})
+
+users.belongsToMany(roles, { through: userRoles, foreignKey: 'id_user' });
+roles.belongsToMany(users, { through: userRoles, foreignKey: 'id_role' });
 
 categories.hasMany(products, {foreignKey: 'id_category'})
 products.belongsTo(categories, {foreignKey: 'id_category'})
@@ -50,6 +54,7 @@ deliveries.belongsTo(users, {foreignKey: 'id_user'})
 export const db = {
 	users,
 	roles,
+	userRoles,
 	banks,
 	categories,
 	deliveries,

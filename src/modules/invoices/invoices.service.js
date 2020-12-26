@@ -15,7 +15,6 @@ export const register = async (req, res) => {
 	//Iniciamos la transacción para hacer commit o rollback
 	const transaction = await sequelize.transaction()
 	try {
-		console.log('entramos')
 		const reference = randomstring.generate({
 			length: 30,
 			charset: 'alphabetic'
