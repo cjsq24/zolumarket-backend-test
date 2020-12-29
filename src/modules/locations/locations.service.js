@@ -6,7 +6,7 @@ export const list = async (req, res) => {
 		const query = await db.locations.findAll({ where: {id_user: req.idUser }})
 		res.json({ success: true, data: query, message: '' })
 	} catch (e) {
-		res.status(400).json({ success: false, data: {}, message: '' })
+		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
 	}
 }
 
@@ -21,9 +21,13 @@ export const register = async (req, res) => {
 			favorite: req.body.favorite,
 			id_user: req.idUser
 		})
-		res.json({ success: true, data: newRecord, message: '' })
+
+		if (newRecord) {
+			res.json({ success: true, data: newRecord, message: 'SUCCESS_REGISTER' })
+		} else {
+			res.status(400).json({ success: true, data: newRecord, message: 'FAILED_REGISTER' })
+		}
 	} catch (e) {
-		console.log('error al registrar')
 		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
 	}
 }
@@ -40,9 +44,14 @@ export const update = async (req, res) => {
 					longitude_delta: req.body.longitude_delta
 				}, { where: { id_location: req.body.id_location } }
 			)
-			res.json({ success: true, data: update, message: '' })
+
+			if (update) {
+				res.json({ success: true, data: update, message: 'SUCCESS_UPDATE' })
+			} else {
+				res.status(400).json({ success: false, data: {}, message: 'FAILED_UPDATE' })
+			}
 		} else {
-			res.status(400).json({ success: false, data: {}, message: 'Location not exists' })
+			res.status(400).json({ success: false, data: {}, message: 'NOT_EXISTS' })
 		}
 	} catch (e) {
 		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
@@ -54,9 +63,9 @@ export const deleteRecord = async (req, res) => {
 	try {
 		const query = await db.locations.destroy({ where: { id_location: req.body.id_location } });
 		if (query) {
-			res.json({ success: true, data: {}, message: '' })
+			res.json({ success: true, data: {}, message: 'DELETE_SUCCESS' })
 		} else {
-			res.status(400).json({ success: false, data: {}, message: 'Failed operation' })
+			res.status(400).json({ success: false, data: {}, message: 'DELETE_FAILED' })
 		}
 	} catch (e) {
 		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })

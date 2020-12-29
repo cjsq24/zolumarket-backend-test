@@ -8,7 +8,7 @@ export const list = async (req, res) => {
 export const register = async (req, res) => {
 	const query = await db.deliveries.findOne({ where: { reference: req.body.reference } });
 	if (!query) {
-		const newRecord = db.deliveries.create({
+		const new_record = db.deliveries.create({
 			reference: req.body.reference,
 			price: req.body.price,
 			id_user: req.body.id_user,
@@ -16,7 +16,7 @@ export const register = async (req, res) => {
 			courier_address: req.body.courier_address,
 			delivery_status: req.body.delivery_status
 		})
-		res.json({ success: true, data: newRecord, message: '' })
+		res.json({ success: true, data: new_record, message: '' })
 	} else {
 		res.status(400).json({ success: false, data: {}, message: 'Reference exist' })
 	}
@@ -28,8 +28,8 @@ export const registerFromInvoice = async (params) => {
 
 		const newRecord = await db.deliveries.create({
 			reference: params.reference,
-			price: params.totalPrice,
-			id_user: params.idUser,
+			price: params.total_price,
+			id_user: params.id_user,
 			shipping_address: location.latitude + ', ' + location.latitude_delta + ', ' + location.longitude + ', ' + location.longitude_delta,
 			courier_address: 'data.courierAddress',
 			delivery_status: '1'

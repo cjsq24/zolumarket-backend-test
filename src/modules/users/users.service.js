@@ -4,8 +4,12 @@ import {db} from '../models.js'
 import SequelizeErrorMsg from '../../../helpers/SequelizeValidations.js'
 
 export const list = async (req, res) => {
-	const query = await db.users.findAll()
-	res.json({ success: true, data: query, message: '' })
+	try {
+		const query = await db.users.findAll()
+		res.json({ success: true, data: query, message: '' })
+	} catch (e) {
+		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
+	}
 }
 
 export const login = async (req, res) => {
@@ -21,16 +25,15 @@ export const login = async (req, res) => {
 					const token = jwt.sign({ id_user: query.id_user, email: query.email }, process.env.SECRET);
 					res.json({ success: true, data: { ...query.dataValues, token }, message: '' })
 				} else {
-					res.status(400).json({ success: false, data: {}, message: 'Su usuario no tiene permitido ingresar desde esta aplicación' })
+					res.status(400).json({ success: false, data: {}, message: 'USER_ROL_INVALID' })
 				}
 			} else {
-				res.status(400).json({ success: false, data: {}, message: 'Correo o contraseña incorrecta' })
+				res.status(400).json({ success: false, data: {}, message: 'USER_INVALID' })
 			}
 		} else {
-			res.status(400).json({ success: false, data: {}, message:'Correo o contraseña incorrecta' })
+			res.status(400).json({ success: false, data: {}, message:'USER_INVALID' })
 		}
 	} catch (e) {
-		console.log(e)
 		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
 	}
 }
@@ -47,12 +50,15 @@ export const register = async (req,res) => {
 			password: req.body.password
 		})
 
-		if (userType) {
-			newRecord.setRoles([userType])
+		if (newRecord) {
+			if (userType) {
+				newRecord.setRoles([userType])
+			}
+			res.json({ success: true, data: newRecord, message: 'SUCCESS_REGISTER' })
+		} else {
+			res.status(400).json({ success: false, data: {}, message: 'FAILED_REGISTER' })
 		}
-		res.json({ success: true, data: newRecord, message: '' })
 	} catch (e) {
-		console.log(e)
 		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
 	}
 }
@@ -69,9 +75,13 @@ export const updateProfile = async (req, res) => {
 					phone_number: req.body.telefono
 				}, { where: { id_user: req.id_user } }
 			)
-			res.json({ success: true, data: update, message: '' })
+			if (update) {
+				res.json({ success: false, data: {}, message: 'SUCCESS_UPDATE' })
+			} else {
+				res.status(400).json({ success: false, data: {}, message: 'FAILED_UPDATE' })
+			}
 		} else {
-			res.status(400).json({ success: false, data: {}, message: 'User not exist' })
+			res.status(400).json({ success: false, data: {}, message: 'NOT_EXISTS' })
 		}
 	} catch (e) {
 		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })

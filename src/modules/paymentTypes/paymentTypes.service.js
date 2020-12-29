@@ -6,15 +6,18 @@ export const list = async (req, res) => {
 		const query = await db.paymentTypes.findAll()
 		res.json({ success: true, data: query, message: '' })
 	} catch (e) {
-		console.log(e)
-		res.status(400).json({ success: false, data: {}, message: 'error' })
+		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
 	}
 }
 
 export const register = async (req, res) => {
 	try {
 		const newRecord = await db.paymentTypes.create({ name: req.body.name })
-		res.json({ success: true, data: newRecord, message: '' })
+		if (newRecord) {
+			res.json({ success: true, data: newRecord, message: 'SUCCESS_REGISTER' })
+		} else {
+			res.status(400).json({ success: true, data: newRecord, message: 'FAILED_REGISTER' })
+		}
 	} catch (e) {
 		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
 	}
@@ -24,13 +27,15 @@ export const update = async (req, res) => {
 	try {
 		const query = await db.paymentTypes.findOne({ where: { id_payment_type: req.id_payment_type } });
 		if (query) {
-			const update = db.paymentTypes.update({
-					name: req.body.name
-				}, { where: { id_payment_type: req.id_payment_type } }
-			)
-			res.json({ success: true, data: update, message: '' })
+			const update = db.paymentTypes.update({ name: req.body.name }, { where: { id_payment_type: req.id_payment_type } })
+
+			if (update) {
+				res.json({ success: true, data: newRecord, message: 'SUCCESS_UPDATE' })
+			} else {
+				res.status(400).json({ success: true, data: newRecord, message: 'FAILED_UPDATE' })
+			}
 		} else {
-			res.status(400).json({ success: false, data: {}, message: 'Unit not exist' })
+			res.status(400).json({ success: false, data: {}, message: 'NOT_EXISTS' })
 		}
 	} catch (e) {
 		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })

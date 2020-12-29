@@ -9,15 +9,14 @@ export const register = async (params) => {
 	try {
 		params.products.map(async (product) => {
 			await db.invoiceProducts.create({
-				id_invoice: params.idInvoice,
+				id_invoice: params.id_invoice,
 				id_product: product.id,
-				quantity: product.cantidad,
-				price: product.precio
+				quantity: product.quantity,
+				price: product.price
 			}, { transaction: params.transaction })
 		})
 		return true
 	} catch (e) {
-		console.log(e)
 		return false
 	}
 }

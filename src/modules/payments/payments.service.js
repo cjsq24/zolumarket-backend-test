@@ -33,24 +33,18 @@ export const list = async (req, res) => {
 export const register = async (params) => {
 	try {
 		let data = params.data
-		if (Number.isInteger(data.tipoDePago)) {
-			data.idPaymentType = data.tipoDePago
-			//data.idBank = data.banco
-			data.idBank = data.id_bank
-			data.referencePayment = data.referencia
-			data.date = data.fecha
-		} else {
-			if (data.tipoDePago === 'key1') { //efectivo
-				data.idPaymentType = 1
+		if (!Number.isInteger(data.id_payment_type)) {
+			if (data.id_payment_type === 'key1') { //efectivo
+				data.id_payment_type = 1
 				data.referencePayment = null
-			} else if (data.tipoDePago === 'key2') { //transferencia/depósito
-				data.idPaymentType = 2
-				data.idBank = 1
-				data.referencePayment = 1
-			} else if (data.tipoDePago === 'key5') { //paypal
-				data.idPaymentType = 5
-				data.idBank = 1
-				data.referencePayment = 1
+			} else if (data.id_payment_type === 'key2') { //transferencia/depósito
+				data.id_payment_type = 2
+				data.id_bank = 1
+				data.referencePayment = null
+			} else if (data.id_payment_type === 'key5') { //paypal
+				data.id_payment_type = 5
+				data.id_bank = 1
+				data.referencePayment = null
 			}
 
 			/*let date = new Date()
@@ -58,17 +52,16 @@ export const register = async (params) => {
 			let month = ((date.getMonth() + 1) < 10) ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)
 			let year = date.getFullYear()
 			data.date = `${day}-${month}-${year}`*/
-			data.date = data.fecha
 		}
 
-		const newRecord = await db.payments.create({
+		const new_record = await db.payments.create({
 			reference: params.reference,
-			price: params.totalPrice,
-			id_invoice: params.idInvoice,
-			id_user: params.idUser,
-			id_payment_type: data.idPaymentType,
-			id_bank: data.idBank,
-			reference_payment: data.referencePayment,
+			price: params.total_price,
+			id_invoice: params.id_invoice,
+			id_user: params.id_user,
+			id_payment_type: data.id_payment_type,
+			id_bank: data.id_bank,
+			reference_payment: data.reference_payment,
 			id_account: data.id_account,
 			date: data.date
 		}, { transaction: params.transaction })
@@ -84,7 +77,7 @@ export const update = async (totalPrice, data) => {
 	try {
 		const query = await db.payments.findOne({ where: { id_invoice: data.idInvoice } });
 		if (query) {
-			if (data.tipoDePago === 'efectivo') {
+			if (data.id_payment_type === 'efectivo') {
 				data.idPaymentType = 1 //efectivo
 				data.idBank = 1 //efectivo
 				data.referencePayment = 1 //efectivo

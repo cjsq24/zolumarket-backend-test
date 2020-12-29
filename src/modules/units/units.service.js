@@ -1,8 +1,13 @@
 import {db} from '../models.js'
+import SequelizeErrorMsg from '../../../helpers/SequelizeValidations.js'
 
 export const list = async (req, res) => {
-	const query = db.units.findAll()
-	res.json({ success: true, data: query, message: '' })
+	try {
+		const query = await db.providers.findAll()
+		res.json({ success: true, data: query, message: '' })
+	} catch (e) {
+		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
+	}
 }
 
 export const register = async (req, res) => {
@@ -11,11 +16,13 @@ export const register = async (req, res) => {
 			name: req.body.name,
 			abbreviation: req.body.abbreviation
 		})
-		res.json({ success: true, data: newRecord, message: '' })
+		if (newRecord) {
+			res.json({ success: true, data: newRecord, message: 'SUCCESS_REGISTER' })
+		} else {
+			res.status(400).json({ success: false, data: {}, message: 'FAILED_REGISTER' })
+		}
 	} catch (e) {
-		let message = ''
-		if (validationsSequelize(e)) message = validationsSequelize(e)
-		res.status(400).json({ success: false, data: {}, message: message })
+		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
 	}
 }
 
@@ -28,14 +35,17 @@ export const update = async (req, res) => {
 					abbreviation: req.body.abbreviation
 				}, { where: { id_unit: req.body.id_unit } }
 			)
-			res.json({ success: true, data: update, message: '' })
+			
+			if (newRecord) {
+				res.json({ success: true, data: newRecord, message: 'SUCCESS_REGISTER' })
+			} else {
+				res.status(400).json({ success: false, data: {}, message: 'FAILED_REGISTER' })
+			}
 		} else {
-			res.status(400).json({ success: false, data: {}, message: 'Unit not exist' })
+			res.status(400).json({ success: false, data: {}, message: 'NOT_EXISTS' })
 		}
 	} catch (e) {
-		let message = ''
-		if (validationsSequelize(e)) message = validationsSequelize(e)
-		res.status(400).json({ success: false, data: {}, message: message })
+		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
 	}
 }
 
@@ -43,11 +53,4 @@ export const units = {
 	list,
 	register,
 	update
-}
-
-function validationsSequelize(e) {
-	if (e.errors[0].validatorKey == 'not_unique' && e.errors[0].path == 'name') {
-		return message = 'Name exists'
-	}
-	return false
 }

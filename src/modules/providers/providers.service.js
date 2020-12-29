@@ -1,8 +1,13 @@
 import {db} from '../models.js'
+import SequelizeErrorMsg from '../../../helpers/SequelizeValidations.js'
 
 export const list = async (req, res) => {
-	const query = db.providers.findAll()
-	res.json({ success: true, data: query, message: '' })
+	try {
+		const query = await db.providers.findAll()
+		res.json({ success: true, data: query, message: '' })
+	} catch (e) {
+		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
+	}
 }
 
 export const register = async (req, res) => {
@@ -13,11 +18,14 @@ export const register = async (req, res) => {
 			phone_number: req.body.phone_number,
 			address: req.body.address
 		})
-		res.json({ success: true, data: newRecord, message: '' })
+
+		if (newRecord) {
+			res.json({ success: true, data: newRecord, message: 'SUCCESS_REGISTER' })
+		} else {
+			res.status(400).json({ success: false, data: {}, message: 'FAILED_REGISTER' })
+		}
 	} catch (e) {
-		let message = ''
-		if (validationsSequelize(e)) message = validationsSequelize(e)
-		res.status(400).json({ success: false, data: {}, message: message })
+		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
 	}
 }
 
@@ -31,14 +39,17 @@ export const update = async (req, res) => {
 					phone_number: req.body.phone_number
 				}, { where: { id_provider: req.body.id_provider } }
 			)
-			res.json({ success: true, data: update, message: '' })
+
+			if (update) {
+				res.json({ success: true, data: update, message: 'SUCCESS_UPDATE' })
+			} else {
+				res.status(400).json({ success: false, data: {}, message: 'FAILED_UPDATE' })
+			}
 		} else {
-			res.status(400).json({ success: false, data: {}, message: 'Provider not exist' })
+			res.status(400).json({ success: false, data: {}, message: 'NOT_EXISTS' })
 		}
 	} catch (e) {
-		let message = ''
-		if (validationsSequelize(e)) message = validationsSequelize(e)
-		res.status(400).json({ success: false, data: {}, message: message })
+		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
 	}
 }
 

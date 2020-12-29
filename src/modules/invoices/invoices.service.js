@@ -21,61 +21,53 @@ export const register = async (req, res) => {
 		});
 
 		//Calculo el precio total de los productos
-		let totalPrice = 0
-		req.body.datosfactura.map(data => {
-			totalPrice += (data.precio * data.cantidad)
-		})
-
-		//concateno los productos
-		let products = ''
-		req.body.datosfactura.map(p => {
-			products = p.id + ',' + products
+		let total_price = 0
+		req.body.products.map(data => {
+			total_price += (data.price * data.quantity)
 		})
 
 		//registramos la factura
-		const newInvoice = await db.invoices.create({
+		const new_invoice = await db.invoices.create({
 			reference: reference,
 			tax: req.body.tax,
-			total_price: totalPrice,
+			total_price: total_price,
 			id_user: req.idUser,
-			data_user: req.body.datosusuario,
-			products: products,
 			address: req.body.address,
-			transaction_status: (req.body.transactionStatus) ? req.body.transactionStatus : 0
+			transaction_status: (req.body.transaction_status) ? req.body.transaction_status : 0
 		}, { transaction: transaction })
 
 		//registramos el detalle de productos de la factura
-		const registerProducts = await invoiceProducts.register({
+		const register_products = await invoiceProducts.register({
 			transaction: transaction, 
-			idInvoice: newInvoice.dataValues.id_invoice, 
-			products: req.body.datosfactura
+			id_invoice: new_invoice.dataValues.id_invoice, 
+			products: req.body.products
 		})
 
 		//registramos el pago
-		const registerPayment = await payments.register({
+		const register_payment = await payments.register({
 			transaction: transaction, 
-			idInvoice: newInvoice.dataValues.id_invoice, 
+			id_invoice: new_invoice.dataValues.id_invoice, 
 			reference: reference, 
-			totalPrice: totalPrice, 
+			total_price: total_price, 
 			data: req.body, 
-			idUser: req.idUser
+			id_user: req.idUser
 		})
 
 		//registramos el delivery
-		const registerDelivery = await deliveries.registerFromInvoice({
+		const register_delivery = await deliveries.registerFromInvoice({
 			transaction: transaction, 
 			reference: reference, 
-			totalPrice: totalPrice, 
+			total_price: total_price, 
 			data: req.body, 
-			idUser: req.idUser
+			id_user: req.idUser
 		})
 
-		if (registerProducts && registerPayment && registerDelivery) {
+		if (register_products && register_payment && register_delivery) {
 			await transaction.commit()
-			res.json({ success: true, data: newInvoice, message: '' })
+			res.json({ success: true, data: new_invoice, message: 'SUCCESS_REGISTER' })
 		} else {
 			await transaction.rollback()
-			res.status(400).json({ success: false, data: [], message: SequelizeErrorMsg(e) })
+			res.status(400).json({ success: false, data: [], message: 'FAILED_REGISTER' })
 		}
 	} catch (e) {
 		await transaction.rollback()
@@ -84,17 +76,17 @@ export const register = async (req, res) => {
 }
 
 export const update = async (req, res) => {
-	const query = await db.invoices.findOne({ where: { id_invoice: req.body.idInvoice } });
+	const query = await db.invoices.findOne({ where: { id_invoice: req.body.id_invoice } });
 	if (query) {
 		try {
 			//Calculo el precio total de los productos
-			let totalPrice = 0
+			let total_price = 0
 			req.body.datosfactura = [
 				{ id: 1, precio: 15 },
 				{ id: 9, precio: 20 }
 			]
 			req.body.datosfactura.map(data => {
-				totalPrice += data.precio
+				total_price += data.precio
 			})
 
 			//concateno los productos
@@ -106,22 +98,22 @@ export const update = async (req, res) => {
 			const updatedInvoice = await db.invoices.update({
 					reference: req.body.reference,
 					tax: req.body.tax,
-					total_price: req.body.totalPrice,
+					total_price: req.body.total_price,
 					id_user: req.body.idUser,
 					address: req.body.address,
-					transaction_status: req.body.transactionStatus
-				}, { where: { id_invoice: req.body.idInvoice } }
+					transaction_status: req.body.transaction_status
+				}, { where: { id_invoice: req.body.id_invoice } }
 			)
 
 			if (updatedInvoice) {
 				//actualizamos el detalle de productos de la factura
-				invoiceProducts.update(req.body.idInvoice, req.body.datosfactura)
+				invoiceProducts.update(req.body.id_invoice, req.body.datosfactura)
 	
 				//actualizamos el pago
-				payments.update(totalPrice, req.body)
+				payments.update(total_price, req.body)
 	
 				//actualizamos el delivery
-				//deliveries.updateFromInvoice(reference, totalPrice, req.body)
+				//deliveries.updateFromInvoice(reference, total_price, req.body)
 	
 				res.json({ success: true, data: updatedInvoice, message: '' })
 			} else {

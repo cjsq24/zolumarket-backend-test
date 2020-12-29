@@ -36,8 +36,7 @@ export const list = async (req, res) => {
 		}
 		res.json({ success: true, data: query, message: '' })
 	} catch (e) {
-		console.log(e)
-		res.status(400).json({ success: false, data: {}, message: 'error' })
+		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
 	}
 }
 
@@ -56,16 +55,21 @@ export const register = async (req, res) => {
 			picture: req.body.foto,
 			description: req.body.descripcion
 		})
-		res.json({ success: true, data: newRecord, message: '' })
+
+		if (newRecord) {
+			res.json({ success: true, data: newRecord, message: 'SUCCESS_REGISTER' })
+		} else {
+			res.status(400).json({ success: true, data: newRecord, message: 'FAILED_REGISTER' })
+		}
 	} catch (e) {
 		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
 	}
 }
 
 export const update = async (req, res) => {
-	const query = await db.products.findOne({ where: { id_product: req.body.key } });
-	if (query) {
-		try {
+	try {
+		const query = await db.products.findOne({ where: { id_product: req.body.key } });
+		if (query) {
 			const idProvider = (req.body.proveedor == 'ZoluMarket') ? 1 : null
 			const idUnit = (req.body.unidad == 'gr') ? 1 : null
 			const update = await db.products.update({
@@ -80,12 +84,17 @@ export const update = async (req, res) => {
 					description: req.body.descripcion
 				}, { where: { id_product: req.body.key } }
 			)
-			res.json({ success: true, data: update, message: '' })
-		} catch (e) {
-			res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
+			
+			if (update) {
+				res.json({ success: true, data: newRecord, message: 'SUCCESS_UPDATE' })
+			} else {
+				res.status(400).json({ success: true, data: newRecord, message: 'FAILED_UPDATE' })
+			}
+		} else {
+			res.status(400).json({ success: false, data: {}, message: 'NOT_EXISTS' })
 		}
-	} else {
-		res.status(400).json({ success: false, data: {}, message: 'Product not exist' })
+	} catch (e) {
+		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
 	}
 }
 
