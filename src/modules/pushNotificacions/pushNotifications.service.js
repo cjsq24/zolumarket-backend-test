@@ -1,6 +1,6 @@
 //Esto es para poder hacer require
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
+//import { createRequire } from 'module';
+//const require = createRequire(import.meta.url);
 
 import admin from "firebase-admin"
 const serviceAccount = require("../../../zolumarket-mobile-firebase-adminsdk-7vxoj-40c9b7e7ea.json");
@@ -9,7 +9,7 @@ admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 
 export const sendToDevice = async (req, res) => {
 	try {
-		admin.messaging().sendToDevice(req.query.deviceToken, {
+		admin.messaging().sendToDevice(req.query.device_token, {
 				notification: {
 					title: (req.query.title) ? req.query.title : 'Zolumarket',
 					body: (req.query.body) ? req.query.body : 'Notificación de Zolumarket',
