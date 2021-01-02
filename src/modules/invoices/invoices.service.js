@@ -64,10 +64,10 @@ export const register = async (req, res) => {
 
 		if (register_products && register_payment && register_delivery) {
 			await transaction.commit()
-			res.json({ success: true, data: new_invoice, message: 'SUCCESS_REGISTER' })
+			res.json({ success: true, data: new_invoice, message: 'INVOICE_SUCCESS_REGISTER' })
 		} else {
 			await transaction.rollback()
-			res.status(400).json({ success: false, data: [], message: 'FAILED_REGISTER' })
+			res.status(400).json({ success: false, data: [], message: 'INVOICE_FAILED_REGISTER' })
 		}
 	} catch (e) {
 		await transaction.rollback()

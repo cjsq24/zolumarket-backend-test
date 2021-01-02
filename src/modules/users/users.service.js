@@ -23,7 +23,7 @@ export const login = async (req, res) => {
 				const validRol = roles.find(role => (role.id_role == userType && role.status))
 				if (validRol) {
 					const token = jwt.sign({ id_user: query.id_user, email: query.email }, process.env.SECRET);
-					res.json({ success: true, data: { ...query.dataValues, token }, message: '' })
+					res.json({ success: true, data: { ...query.dataValues, token }, message: 'USER_LOGIN_SUCCESS' })
 				} else {
 					res.status(400).json({ success: false, data: {}, message: 'USER_ROL_INVALID' })
 				}

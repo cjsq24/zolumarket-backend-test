@@ -23,9 +23,9 @@ export const register = async (req, res) => {
 		})
 
 		if (newRecord) {
-			res.json({ success: true, data: newRecord, message: 'SUCCESS_REGISTER' })
+			res.json({ success: true, data: newRecord, message: 'LOCATION_SUCCESS_REGISTER' })
 		} else {
-			res.status(400).json({ success: true, data: newRecord, message: 'FAILED_REGISTER' })
+			res.status(400).json({ success: true, data: newRecord, message: 'LOCATION_FAILED_REGISTER' })
 		}
 	} catch (e) {
 		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
@@ -46,9 +46,9 @@ export const update = async (req, res) => {
 			)
 
 			if (update) {
-				res.json({ success: true, data: update, message: 'SUCCESS_UPDATE' })
+				res.json({ success: true, data: update, message: 'LOCATION_SUCCESS_UPDATE' })
 			} else {
-				res.status(400).json({ success: false, data: {}, message: 'FAILED_UPDATE' })
+				res.status(400).json({ success: false, data: {}, message: 'LOCATION_FAILED_UPDATE' })
 			}
 		} else {
 			res.status(400).json({ success: false, data: {}, message: 'NOT_EXISTS' })
@@ -63,9 +63,9 @@ export const deleteRecord = async (req, res) => {
 	try {
 		const query = await db.locations.destroy({ where: { id_location: req.body.id_location } });
 		if (query) {
-			res.json({ success: true, data: {}, message: 'DELETE_SUCCESS' })
+			res.json({ success: true, data: {}, message: 'LOCATION_SUCCESS_DELETE' })
 		} else {
-			res.status(400).json({ success: false, data: {}, message: 'DELETE_FAILED' })
+			res.status(400).json({ success: false, data: {}, message: 'LOCATION_FAILED_DELETE' })
 		}
 	} catch (e) {
 		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
@@ -77,14 +77,14 @@ export const favorite = async (req, res) => {
 		const favorite = (req.body.favorite) ? false : true
 		const updateAll = await db.locations.update({ favorite: false }, { where: { id_user: req.idUser } })
 		if (updateAll) {
-			const query = await db.locations.update({ favorite: favorite}, { where: { id_location: req.body.id_location} })
+			const query = await db.locations.update({ favorite: favorite}, { where: { id_location: req.body.id_location } })
 			if (query) {
 				res.json({ success: true, data: {}, message: '' })
 			} else {
-				res.status(400).json({ success: false, data: {}, message: 'Location failed update' })
+				res.status(400).json({ success: false, data: {}, message: 'FAILED_OPERATION' })
 			}
 		} else {
-			res.status(400).json({ success: false, data: {}, message: 'Location failed update' })
+			res.status(400).json({ success: false, data: {}, message: 'FAILED_OPERATION' })
 		}
 	} catch (e) {
 		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
