@@ -1,6 +1,6 @@
 //Esto es para poder hacer require
-//import { createRequire } from 'module';
-//const require = createRequire(import.meta.url);
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 
 import admin from "firebase-admin"
 const serviceAccount = require("../../../zolumarket-mobile-firebase-adminsdk-7vxoj-40c9b7e7ea.json");
