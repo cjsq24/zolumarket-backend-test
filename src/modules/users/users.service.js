@@ -34,7 +34,7 @@ export const login = async (req, res) => {
 			res.status(400).json({ success: false, data: {}, message:'USER_INVALID' })
 		}
 	} catch (e) {
-		res.status(400).json({ success: false, data: {}, message: SequelizeErrorMsg(e) })
+		res.status(400).json({ success: false, data: {}, message: 'error' })
 	}
 }
 
