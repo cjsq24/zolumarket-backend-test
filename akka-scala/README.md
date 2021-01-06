@@ -61,7 +61,7 @@ libraryDependencies += "io.swagger" % "swagger-client" % "1.0.0"
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0*
+All URIs are relative to *https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0/api*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

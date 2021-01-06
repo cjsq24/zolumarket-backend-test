@@ -28,7 +28,7 @@ object StoreApi {
    * @param orderId ID of the order that needs to be deleted
    */
   def deleteOrder(orderId: Long): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.DELETE, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0", "/store/order/{orderId}", "application/json")
+    ApiRequest[Unit](ApiMethods.DELETE, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0/api", "/store/order/{orderId}", "application/json")
       .withPathParam("orderId", orderId)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
@@ -42,7 +42,7 @@ object StoreApi {
    *   api_key (apiKey)
    */
   def getInventory()(implicit apiKey: ApiKeyValue): ApiRequest[Map[String, Int]] =
-    ApiRequest[Map[String, Int]](ApiMethods.GET, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0", "/store/inventory", "application/json")
+    ApiRequest[Map[String, Int]](ApiMethods.GET, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0/api", "/store/inventory", "application/json")
       .withApiKey(apiKey, "api_key", HEADER)
       .withSuccessResponse[Map[String, Int]](200)
         /**
@@ -56,7 +56,7 @@ object StoreApi {
    * @param orderId ID of pet that needs to be fetched
    */
   def getOrderById(orderId: Long): ApiRequest[Order] =
-    ApiRequest[Order](ApiMethods.GET, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0", "/store/order/{orderId}", "application/json")
+    ApiRequest[Order](ApiMethods.GET, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0/api", "/store/order/{orderId}", "application/json")
       .withPathParam("orderId", orderId)
       .withSuccessResponse[Order](200)
       .withErrorResponse[Unit](400)
@@ -71,7 +71,7 @@ object StoreApi {
    * @param body order placed for purchasing the pet
    */
   def placeOrder(body: Order): ApiRequest[Order] =
-    ApiRequest[Order](ApiMethods.POST, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0", "/store/order", "application/json")
+    ApiRequest[Order](ApiMethods.POST, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0/api", "/store/order", "application/json")
       .withBody(body)
       .withSuccessResponse[Order](200)
       .withErrorResponse[Unit](400)

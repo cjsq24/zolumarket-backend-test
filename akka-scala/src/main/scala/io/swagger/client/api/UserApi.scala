@@ -28,7 +28,7 @@ object UserApi {
    * @param body Created user object
    */
   def createUser(body: User): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.POST, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0", "/user", "application/json")
+    ApiRequest[Unit](ApiMethods.POST, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0/api", "/user", "application/json")
       .withBody(body)
       .withDefaultSuccessResponse[Unit]
         /**
@@ -40,7 +40,7 @@ object UserApi {
    * @param body List of user object
    */
   def createUsersWithArrayInput(body: Seq[User]): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.POST, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0", "/user/createWithArray", "application/json")
+    ApiRequest[Unit](ApiMethods.POST, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0/api", "/user/createWithArray", "application/json")
       .withBody(body)
       .withDefaultSuccessResponse[Unit]
         /**
@@ -52,7 +52,7 @@ object UserApi {
    * @param body List of user object
    */
   def createUsersWithListInput(body: Seq[User]): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.POST, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0", "/user/createWithList", "application/json")
+    ApiRequest[Unit](ApiMethods.POST, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0/api", "/user/createWithList", "application/json")
       .withBody(body)
       .withDefaultSuccessResponse[Unit]
         /**
@@ -65,7 +65,7 @@ object UserApi {
    * @param username The name that needs to be deleted
    */
   def deleteUser(username: String): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.DELETE, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0", "/user/{username}", "application/json")
+    ApiRequest[Unit](ApiMethods.DELETE, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0/api", "/user/{username}", "application/json")
       .withPathParam("username", username)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
@@ -80,7 +80,7 @@ object UserApi {
    * @param username The name that needs to be fetched. Use user1 for testing.
    */
   def getUserByName(username: String): ApiRequest[User] =
-    ApiRequest[User](ApiMethods.GET, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0", "/user/{username}", "application/json")
+    ApiRequest[User](ApiMethods.GET, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0/api", "/user/{username}", "application/json")
       .withPathParam("username", username)
       .withSuccessResponse[User](200)
       .withErrorResponse[Unit](400)
@@ -92,7 +92,7 @@ object UserApi {
    *   code 0 :  (successful operation)
    */
   def logoutUser(): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.GET, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0", "/user/logout", "application/json")
+    ApiRequest[Unit](ApiMethods.GET, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0/api", "/user/logout", "application/json")
       .withDefaultSuccessResponse[Unit]
         /**
    * This can only be done by the logged in user.
@@ -105,7 +105,7 @@ object UserApi {
    * @param body Updated user object
    */
   def updateUser(username: String, body: User): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.PUT, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0", "/user/{username}", "application/json")
+    ApiRequest[Unit](ApiMethods.PUT, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0/api", "/user/{username}", "application/json")
       .withBody(body)
       .withPathParam("username", username)
       .withErrorResponse[Unit](400)
@@ -119,7 +119,7 @@ object UserApi {
    * @param body order placed for purchasing the pet
    */
   def usersLogin(body: UserLogin): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.POST, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0", "/users/login", "application/json")
+    ApiRequest[Unit](ApiMethods.POST, "https://virtserver.swaggerhub.com/cjsq24/zolumarket_api/1.0.0/api", "/users/login", "application/json")
       .withBody(body)
       .withErrorResponse[Unit](400)
       
